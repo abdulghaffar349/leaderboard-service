@@ -1,0 +1,51 @@
+version: '3.8'
+
+services:
+  app:
+    build: .
+    ports:
+      - "3000:3000"
+    env_file:
+     - .env
+    depends_on:
+      - redis
+      - mongodb
+    volumes:
+      - ./src:/app/src
+    networks:
+      - leaderboard-network
+    command: npm run start
+
+  redis:
+    image: redis:alpine
+    ports:
+      - "6379:6379"
+    networks:
+      - leaderboard-network
+
+  mongodb:
+    image: mongo:latest
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongodb_data:/data/db
+    networks:
+      - leaderboard-network
+
+  # mongo-express:
+  #   image: mongo-express
+  #   depends_on:
+  #     - mongodb
+  #   ports:
+  #     - "8081:8081"
+  #   environment:
+  #     - ME_CONFIG_MONGODB_URL=${MONGODB_URI}
+  #   networks:
+  #     - leaderboard-network
+
+networks:
+  leaderboard-network:
+    driver: bridge
+
+volumes:
+  mongodb_data:
