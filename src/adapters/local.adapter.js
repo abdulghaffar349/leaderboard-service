@@ -24,7 +24,7 @@ export default class LocalAdapter extends LeaderboardAdapter {
 	/**
 	 * Retrieves or initializes the leaderboard data structures for the current game
 	 * @returns {{
-	 *   scoreMap: Map<number, Map<string>>,
+	 *   scoreMap: Map<number, Set<string>>,
 	 *   userMap: Map<string, {score: number, timestamp: string}>
 	 * }} 
 	 * Object containing score and user mappings
